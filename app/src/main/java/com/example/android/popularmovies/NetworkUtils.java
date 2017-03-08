@@ -15,14 +15,31 @@ import java.util.Scanner;
 
 public class NetworkUtils {
     private final static String API_URL = "http://api.themoviedb.org";
-    private final static String[] API_PATH = { "3", "movie", "popular" };
+    private final static String[] API_PATH = { "3", "movie" };
+    private final static String API_PATH_POPULAR = "popular";
+    private final static String API_PATH_TOP_RATED = "top_rated";
     private final static String PARAM_KEY = "api_key";
 
-    public static URL buildUrl(String apiKey) {
+    public enum SortOrder {
+        POPULAR("popular"), TOP_RATED("top_rated");
+
+        private final String text;
+
+        SortOrder (final String text) {
+            this.text = text;
+        }
+
+        @Override
+        public String toString() {
+            return text;
+        }
+    }
+
+    public static URL buildUrl(String apiKey, SortOrder order) {
         Uri uri = Uri.parse(API_URL).buildUpon()
                 .appendPath(API_PATH[0])
                 .appendPath(API_PATH[1])
-                .appendPath(API_PATH[2])
+                .appendPath(order.toString())
                 .appendQueryParameter(PARAM_KEY, apiKey).build();
 
         URL url = null;

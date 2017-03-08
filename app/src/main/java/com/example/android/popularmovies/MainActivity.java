@@ -29,17 +29,24 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.action_refresh) {
-            makeQuery();
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                makeQuery(NetworkUtils.SortOrder.POPULAR);
+                return true;
+            case R.id.action_sort_popular:
+                makeQuery(NetworkUtils.SortOrder.POPULAR);
+                return true;
+            case R.id.action_sort_top_rated:
+                makeQuery(NetworkUtils.SortOrder.TOP_RATED);
+                return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
-    private void makeQuery() {
+    private void makeQuery(NetworkUtils.SortOrder sortOrder) {
         String key = getString(R.string.key);
-        URL url = NetworkUtils.buildUrl(key);
+        URL url = NetworkUtils.buildUrl(key, sortOrder);
         new MovieDbQueryTask().execute(url);
     }
 
