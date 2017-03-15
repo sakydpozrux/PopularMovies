@@ -21,7 +21,7 @@ public class NetworkUtils {
     private final static String PARAM_KEY = "api_key";
 
     public enum SortOrder {
-        POPULAR("popular"), TOP_RATED("top_rated");
+        POPULAR(API_PATH_POPULAR), TOP_RATED(API_PATH_TOP_RATED);
 
         private final String text;
 
