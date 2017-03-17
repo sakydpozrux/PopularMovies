@@ -12,50 +12,71 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Title"
+        android:text="Title which is in this example exceptionally long"
         android:textSize="30sp" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/iv_thumbnail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/example_thumbnail" />
+        android:clipToPadding="false"
+        android:fillViewport="false">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_release_year"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="2016" />
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_thumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/example_thumbnail" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_release_year"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="2016"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_vote_average"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="8.1/10"
+                        android:textStyle="italic" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3" />
+                </LinearLayout>
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_vote_average"
+                android:id="@+id/tv_overview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="8.1/10" />
+                android:text="Here will be very long description of the movie. You can see the title above. Basically this app is for me to learn how to develop Android apps. So cool!"
+                android:textSize="18sp" />
         </LinearLayout>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_overview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Here will be very long description of the movie. You can see the title above. Basically this app is for me to learn how to develop Android apps. So cool!"
-        android:textSize="24sp" />
+    </ScrollView>
 
 </LinearLayout>
