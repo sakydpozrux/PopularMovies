@@ -51,7 +51,7 @@ public class MoviesAdapter extends BaseAdapter {
         }
 
         final ImageView imageView = (ImageView) view.findViewById(R.id.iv_thumbnail);
-        imageView.setImageResource(R.drawable.example_thumbnail);
+        MovieDbApiUtils.fillImageView(mContext, imageView, movie.posterPath);
 
         return view;
     }

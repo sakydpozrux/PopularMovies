@@ -1,6 +1,10 @@
 package com.example.android.popularmovies;
 
+import android.content.Context;
 import android.net.Uri;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +20,8 @@ import java.util.Scanner;
 public class MovieDbApiUtils {
     private final static String API_URL = "http://api.themoviedb.org";
     private final static String[] API_PATH = { "3", "movie" };
+    private final static String IMAGES_URL = "http://image.tmdb.org";
+    private final static String[] IMAGES_PATH = { "t", "p", "w185" };
     private final static String API_PATH_POPULAR = "popular";
     private final static String API_PATH_TOP_RATED = "top_rated";
     private final static String PARAM_KEY = "api_key";
@@ -50,6 +56,16 @@ public class MovieDbApiUtils {
         }
 
         return url;
+    }
+
+    public static void fillImageView(Context context, ImageView imageView, String imageRelativePath) {
+        Uri uri = Uri.parse(IMAGES_URL).buildUpon()
+                .appendPath(IMAGES_PATH[0])
+                .appendPath(IMAGES_PATH[1])
+                .appendPath(IMAGES_PATH[2])
+                .appendPath(imageRelativePath.substring(1)).build();
+
+        Picasso.with(context).load(uri.toString()).into(imageView);
     }
 
     public static String getResponseFromHttpUrl(URL url) throws IOException {
