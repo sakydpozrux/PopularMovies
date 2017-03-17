@@ -27,8 +27,8 @@ public class MovieDetail extends AppCompatActivity {
         MovieInfo movie = (MovieInfo) getIntent().getSerializableExtra(MOVIE_INFO_INTENT_KEY);
 
         mTextTitle.setText(movie.title);
-        mTextYear.setText(movie.releaseDate);
-        mTextVoteAverage.setText(movie.voteAverage);
+        mTextYear.setText(movie.releaseDate.substring(0, 4));
+        mTextVoteAverage.setText(movie.voteAverage + "/10");
         mTextOverview.setText(movie.overview);
 
         MovieDbApiUtils.fillImageView(this, mThumbnail, movie.posterPath);
