@@ -13,7 +13,7 @@ import java.util.Scanner;
  * Created by sakydpozrux on 07/03/2017.
  */
 
-public class NetworkUtils {
+public class MovieDbApiUtils {
     private final static String API_URL = "http://api.themoviedb.org";
     private final static String[] API_PATH = { "3", "movie" };
     private final static String API_PATH_POPULAR = "popular";

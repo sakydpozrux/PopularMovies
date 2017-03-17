@@ -6,10 +6,10 @@
     android:orientation="vertical"
     tools:context="com.example.android.popularmovies.MainActivity">
 
-    <TextView
-        android:id="@+id/tv_popular_movies"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Popular movies will show here..."/>
+    <GridView
+        android:id="@+id/gv_thumbnails"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="auto_fit" />
 </LinearLayout>
 

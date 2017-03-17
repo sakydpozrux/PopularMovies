@@ -1,24 +1,28 @@
 package com.example.android.popularmovies;
 
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.GridView;
 
-import java.io.IOException;
-import java.net.URL;
+import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-    private TextView mTextPopularMovies;
+public class MainActivity extends AppCompatActivity implements MoviesSource.MoviesSourceDelegate {
+    private GridView mViewThumbnails;
+    private MoviesSource mMoviesSource;
+    private MoviesAdapter mMoviesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextPopularMovies = (TextView) findViewById(R.id.tv_popular_movies);
+        mViewThumbnails = (GridView) findViewById(R.id.gv_thumbnails);
+
+        mMoviesSource = new MoviesSource(this, this);
+        mMoviesAdapter = new MoviesAdapter(this, mMoviesSource);
+        mViewThumbnails.setAdapter(mMoviesAdapter);
     }
 
     @Override
@@ -31,43 +35,21 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                makeQuery(NetworkUtils.SortOrder.POPULAR);
+                mMoviesSource.makeQuery(MovieDbApiUtils.SortOrder.POPULAR);
                 return true;
             case R.id.action_sort_popular:
-                makeQuery(NetworkUtils.SortOrder.POPULAR);
+                mMoviesSource.makeQuery(MovieDbApiUtils.SortOrder.POPULAR);
                 return true;
             case R.id.action_sort_top_rated:
-                makeQuery(NetworkUtils.SortOrder.TOP_RATED);
+                mMoviesSource.makeQuery(MovieDbApiUtils.SortOrder.TOP_RATED);
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void makeQuery(NetworkUtils.SortOrder sortOrder) {
-        String key = getString(R.string.key);
-        URL url = NetworkUtils.buildUrl(key, sortOrder);
-        new MovieDbQueryTask().execute(url);
-    }
-
-    private class MovieDbQueryTask extends AsyncTask<URL, Void, String> {
-        @Override
-        protected String doInBackground(URL... urls) {
-            URL url = urls[0];
-            String queryResults = null;
-
-            try {
-                queryResults = NetworkUtils.getResponseFromHttpUrl(url);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return queryResults;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            mTextPopularMovies.setText(result);
-        }
+    @Override
+    public void moviesUpdated(ArrayList<MovieInfo> movies) {
+        mMoviesAdapter.notifyDataSetChanged();
     }
 }
