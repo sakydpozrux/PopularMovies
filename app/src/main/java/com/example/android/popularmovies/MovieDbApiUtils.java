@@ -1,6 +1,8 @@
 package com.example.android.popularmovies;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.widget.ImageView;
 
@@ -19,6 +21,7 @@ import java.util.Scanner;
 
 public class MovieDbApiUtils {
     private final static String API_URL = "http://api.themoviedb.org";
+    private final static String PING_URL = "themoviedb.org";
     private final static String[] API_PATH = { "3", "movie" };
     private final static String IMAGES_URL = "http://image.tmdb.org";
     private final static String[] IMAGES_PATH = { "t", "p", "w185" };
@@ -85,5 +88,18 @@ public class MovieDbApiUtils {
         } finally {
             urlConnection.disconnect();
         }
+    }
+
+    public static Boolean isOnline() {
+        try {
+            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 " + PING_URL);
+            int returnVal = p1.waitFor();
+            boolean reachable = (returnVal==0);
+            return reachable;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
 }

@@ -9,11 +9,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements MoviesSource.MoviesSourceDelegate {
+    private ProgressBar mProgressBar;
+    private TextView mTextError;
     private GridView mViewThumbnails;
+
     private MoviesSource mMoviesSource;
     private MoviesAdapter mMoviesAdapter;
 
@@ -22,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements MoviesSource.Movi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mProgressBar = (ProgressBar) findViewById(R.id.pb_getting);
+        mTextError = (TextView) findViewById(R.id.tv_error);
         mViewThumbnails = (GridView) findViewById(R.id.gv_thumbnails);
 
         mMoviesSource = new MoviesSource(this, this);
@@ -67,11 +74,30 @@ public class MainActivity extends AppCompatActivity implements MoviesSource.Movi
     }
 
     private void makeQuery(MovieDbApiUtils.SortOrder popular) {
-        mMoviesSource.makeQuery(popular);
+        if (MovieDbApiUtils.isOnline()) {
+            mMoviesSource.makeQuery(popular);
+            makeOnlyOneVisible(mProgressBar);
+        } else {
+            makeOnlyOneVisible(mTextError);
+        }
     }
 
     @Override
     public void moviesUpdated(ArrayList<MovieInfo> movies) {
         mMoviesAdapter.notifyDataSetChanged();
+        makeOnlyOneVisible(mViewThumbnails);
+    }
+
+    @Override
+    public void errorDuringUpdate(String message) {
+        makeOnlyOneVisible(mTextError);
+    }
+
+    private void makeOnlyOneVisible(View view) {
+        mTextError.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mViewThumbnails.setVisibility(View.INVISIBLE);
+
+        view.setVisibility(View.VISIBLE);
     }
 }

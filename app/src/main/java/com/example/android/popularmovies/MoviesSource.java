@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class MoviesSource {
     public interface MoviesSourceDelegate {
         void moviesUpdated(ArrayList<MovieInfo> movies);
+        void errorDuringUpdate(String message);
     }
 
     final private Context mContext;
@@ -52,8 +53,9 @@ public class MoviesSource {
 
             try {
                 queryResults = MovieDbApiUtils.getResponseFromHttpUrl(url);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
+                mDelegate.errorDuringUpdate(e.getMessage());
                 return new ArrayList<>();
             }
 
@@ -67,8 +69,9 @@ public class MoviesSource {
                     MovieInfo movie = getMovieInfo(jsonMovieInfo);
                     movies.add(movie);
                 }
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
+                mDelegate.errorDuringUpdate(e.getMessage());
                 return new ArrayList<>();
             }
 
