@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements MoviesSource.Movi
                 startActivity(intent);
             }
         });
+
+        makeQuery(MovieDbApiUtils.SortOrder.POPULAR);
     }
 
     @Override
@@ -53,18 +55,19 @@ public class MainActivity extends AppCompatActivity implements MoviesSource.Movi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_refresh:
-                mMoviesSource.makeQuery(MovieDbApiUtils.SortOrder.POPULAR);
-                return true;
             case R.id.action_sort_popular:
-                mMoviesSource.makeQuery(MovieDbApiUtils.SortOrder.POPULAR);
+                makeQuery(MovieDbApiUtils.SortOrder.POPULAR);
                 return true;
             case R.id.action_sort_top_rated:
-                mMoviesSource.makeQuery(MovieDbApiUtils.SortOrder.TOP_RATED);
+                makeQuery(MovieDbApiUtils.SortOrder.TOP_RATED);
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void makeQuery(MovieDbApiUtils.SortOrder popular) {
+        mMoviesSource.makeQuery(popular);
     }
 
     @Override
