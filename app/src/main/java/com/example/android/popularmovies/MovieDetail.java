@@ -2,8 +2,10 @@ package com.example.android.popularmovies;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,5 +37,10 @@ public class MovieDetail extends AppCompatActivity {
         mTextOverview.setText(movie.overview);
 
         MovieDbApiUtils.fillImageView(this, mThumbnail, movie.posterPath);
+    }
+
+    public void btnMarkAsFavoriteClicked(View view) {
+        // TODO: Implement marking as favorite
+        Toast.makeText(this, "TODO: Implement marking as favorite", Toast.LENGTH_LONG).show();
     }
 }

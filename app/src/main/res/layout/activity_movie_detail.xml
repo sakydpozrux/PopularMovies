@@ -107,6 +107,19 @@
             app:layout_constraintTop_toBottomOf="@+id/layout_trailers">
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btn_mark_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/movie_btn_mark_favorite"
+            android:onClick="btnMarkAsFavoriteClicked"
+            android:text="@string/btn_mark_as_favorite"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_vote_average"
+            app:layout_constraintTop_toBottomOf="@+id/tv_vote_average"/>
+
 
     </android.support.constraint.ConstraintLayout>
 

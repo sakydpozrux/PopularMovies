@@ -3,4 +3,6 @@
     <string name="order_by_popularity">Order by popularity</string>
     <string name="order_by_top_rated">Order by top rated</string>
     <string name="favorites">Favorites</string>
+
+    <string name="btn_mark_as_favorite">Mark as favorite</string>
 </resources>
