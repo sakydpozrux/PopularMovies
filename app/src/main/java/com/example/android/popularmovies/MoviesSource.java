@@ -8,7 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -39,6 +38,10 @@ public class MoviesSource {
 
     public void makeQuery(MovieDbApiUtils.SortOrder sortOrder) {
         String key = mContext.getString(R.string.key);
+        if (!MovieDbApiUtils.isApiKeyFormatValid(key)) {
+            throw new RuntimeException("Invalid TheMovieDB API key: " + key);
+        }
+
         URL url = MovieDbApiUtils.buildUrl(key, sortOrder);
         new MovieDbQueryTask().execute(url);
     }

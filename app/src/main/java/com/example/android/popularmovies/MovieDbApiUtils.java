@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 /**
  * Created by sakydpozrux on 07/03/2017.
@@ -28,6 +29,12 @@ public class MovieDbApiUtils {
     private final static String API_PATH_POPULAR = "popular";
     private final static String API_PATH_TOP_RATED = "top_rated";
     private final static String PARAM_KEY = "api_key";
+
+    public static boolean isApiKeyFormatValid(String key) {
+        final String regex = "[\\p{XDigit}]{32}";
+        final Pattern apiKeyPattern = Pattern.compile(regex);
+        return apiKeyPattern.matcher(key).matches();
+    }
 
     public enum SortOrder {
         POPULAR(API_PATH_POPULAR), TOP_RATED(API_PATH_TOP_RATED);
