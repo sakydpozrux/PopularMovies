@@ -7,3 +7,4 @@
 /build
 /captures
 .externalNativeBuild
+app/src/main/res/values/movie_db_api.xml
