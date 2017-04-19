@@ -95,9 +95,12 @@ public class MainActivity extends AppCompatActivity implements MoviesSource.Movi
     }
 
     private void makeOnlyOneVisible(View view) {
-        mTextError.setVisibility(View.INVISIBLE);
-        mProgressBar.setVisibility(View.INVISIBLE);
-        mViewThumbnails.setVisibility(View.INVISIBLE);
+        final View[] views = {
+                mTextError,
+                mProgressBar,
+                mViewThumbnails
+        };
+        for (View v: views) v.setVisibility(View.INVISIBLE);
 
         view.setVisibility(View.VISIBLE);
     }
