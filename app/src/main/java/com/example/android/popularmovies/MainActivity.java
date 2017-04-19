@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -68,6 +69,11 @@ public class MainActivity extends AppCompatActivity implements MoviesSource.Movi
                 return true;
             case R.id.action_sort_top_rated:
                 makeQuery(MovieDbApiUtils.SortOrder.TOP_RATED);
+                return true;
+            case R.id.action_sort_favorite:
+                // TODO: Implement showing only favorites
+                Toast.makeText(this, "TODO: Implement showing only favorites", Toast.LENGTH_LONG)
+                        .show();
                 return true;
         }
 
