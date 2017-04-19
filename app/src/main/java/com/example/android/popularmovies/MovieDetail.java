@@ -5,21 +5,24 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MovieDetail extends AppCompatActivity {
     public static final String MOVIE_INFO_INTENT_KEY = "com.example.android.popularmovies.movieinfo";
 
-    private TextView mTextTitle;
-    private ImageView mThumbnail;
-    private TextView mTextYear;
-    private TextView mTextVoteAverage;
-    private TextView mTextOverview;
+    @BindView(R.id.tv_title) TextView mTextTitle;
+    @BindView(R.id.iv_thumbnail) ImageView mThumbnail;
+    @BindView(R.id.tv_release_year) TextView mTextYear;
+    @BindView(R.id.tv_vote_average) TextView mTextVoteAverage;
+    @BindView(R.id.tv_overview) TextView mTextOverview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
 
-        findComponents();
+        ButterKnife.bind(this);
         setComponents();
     }
 
@@ -32,13 +35,5 @@ public class MovieDetail extends AppCompatActivity {
         mTextOverview.setText(movie.overview);
 
         MovieDbApiUtils.fillImageView(this, mThumbnail, movie.posterPath);
-    }
-
-    private void findComponents() {
-        mTextTitle = (TextView) findViewById(R.id.tv_title);
-        mThumbnail = (ImageView) findViewById(R.id.iv_thumbnail);
-        mTextYear = (TextView) findViewById(R.id.tv_release_year);
-        mTextVoteAverage = (TextView) findViewById(R.id.tv_vote_average);
-        mTextOverview = (TextView) findViewById(R.id.tv_overview);
     }
 }

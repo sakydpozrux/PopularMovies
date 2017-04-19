@@ -14,10 +14,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements MoviesSource.MoviesSourceDelegate {
-    private ProgressBar mProgressBar;
-    private TextView mTextError;
-    private GridView mViewThumbnails;
+    @BindView(R.id.pb_getting) ProgressBar mProgressBar;
+    @BindView(R.id.tv_error) TextView mTextError;
+    @BindView(R.id.gv_thumbnails) GridView mViewThumbnails;
 
     private MoviesSource mMoviesSource;
     private MoviesAdapter mMoviesAdapter;
@@ -27,9 +30,7 @@ public class MainActivity extends AppCompatActivity implements MoviesSource.Movi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mProgressBar = (ProgressBar) findViewById(R.id.pb_getting);
-        mTextError = (TextView) findViewById(R.id.tv_error);
-        mViewThumbnails = (GridView) findViewById(R.id.gv_thumbnails);
+        ButterKnife.bind(this);
 
         mMoviesSource = new MoviesSource(this, this);
         mMoviesAdapter = new MoviesAdapter(this, mMoviesSource);
