@@ -85,6 +85,7 @@ public class MoviesSource {
         private MovieInfo getMovieInfo(JSONObject jsonMovieInfo) throws JSONException {
             MovieInfo movie = new MovieInfo();
 
+            movie.id = Integer.parseInt(jsonMovieInfo.getString("id"));
             movie.overview = jsonMovieInfo.getString("overview");
             movie.posterPath = jsonMovieInfo.getString("poster_path");
             movie.releaseDate = jsonMovieInfo.getString("release_date");
