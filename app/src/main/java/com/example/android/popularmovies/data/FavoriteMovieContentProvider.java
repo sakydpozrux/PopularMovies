@@ -4,7 +4,6 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,7 +23,8 @@ public class FavoriteMovieContentProvider extends ContentProvider {
     public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
         switch (sUriMatcher.match(uri)) {
             case CODE_FAVORITE_MOVIE:
-                break;
+                // TODO
+                throw new UnsupportedOperationException("Method is not implemented");
             default:
                 throw new UnsupportedOperationException(invalidUriMessage(uri));
         }
@@ -41,9 +41,11 @@ public class FavoriteMovieContentProvider extends ContentProvider {
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         switch (sUriMatcher.match(uri)) {
             case CODE_FAVORITE_MOVIE:
-                break;
+                // TODO
+                throw new UnsupportedOperationException("Method is not implemented");
             case CODE_FAVORITE_MOVIE_WITH_ID:
-                break;
+                // TODO
+                throw new UnsupportedOperationException("Method is not implemented");
             default:
                 throw new UnsupportedOperationException(invalidUriMessage(uri));
         }
@@ -60,9 +62,11 @@ public class FavoriteMovieContentProvider extends ContentProvider {
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
         switch (sUriMatcher.match(uri)) {
             case CODE_FAVORITE_MOVIE:
-                break;
+                // TODO
+                throw new UnsupportedOperationException("Method is not implemented");
             case CODE_FAVORITE_MOVIE_WITH_ID:
-                break;
+                // TODO
+                throw new UnsupportedOperationException("Method is not implemented");
             default:
                 throw new UnsupportedOperationException(invalidUriMessage(uri));
         }
@@ -72,9 +76,11 @@ public class FavoriteMovieContentProvider extends ContentProvider {
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
         switch (sUriMatcher.match(uri)) {
             case CODE_FAVORITE_MOVIE:
-                break;
+                // TODO
+                throw new UnsupportedOperationException("Method is not implemented");
             case CODE_FAVORITE_MOVIE_WITH_ID:
-                break;
+                // TODO
+                throw new UnsupportedOperationException("Method is not implemented");
             default:
                 throw new UnsupportedOperationException(invalidUriMessage(uri));
         }
@@ -84,9 +90,11 @@ public class FavoriteMovieContentProvider extends ContentProvider {
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
         switch (sUriMatcher.match(uri)) {
             case CODE_FAVORITE_MOVIE:
-                break;
+                // TODO
+                throw new UnsupportedOperationException("Method is not implemented");
             case CODE_FAVORITE_MOVIE_WITH_ID:
-                break;
+                // TODO
+                throw new UnsupportedOperationException("Method is not implemented");
             default:
                 throw new UnsupportedOperationException(invalidUriMessage(uri));
         }
