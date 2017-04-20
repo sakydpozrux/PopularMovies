@@ -29,8 +29,7 @@ public class FavoriteMovieContentProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         mOpenHelper = new FavoriteMovieDbHelper(getContext());
-        // TODO
-        throw new UnsupportedOperationException("TODO");
+        return true;
     }
 
     @Nullable
