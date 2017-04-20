@@ -28,7 +28,7 @@ public class FavoriteMovieDbHelper extends SQLiteOpenHelper {
                 FavoriteMovieEntry.COLUMN_POSTER + " TEXT, " +
                 FavoriteMovieEntry.COLUMN_SYNOPSIS + " TEXT, " +
                 FavoriteMovieEntry.COLUMN_USER_RATING + " TEXT, " +
-                FavoriteMovieEntry.COLUMN_RELEASE_DATE + " TEXT" +
+                FavoriteMovieEntry.COLUMN_RELEASE_DATE + " TEXT, " +
                 "UNIQUE (" + FavoriteMovieEntry.COLUMN_TMDB_ID + ") ON CONFLICT REPLACE)";
 
         db.execSQL(SQL_CREATE_TABLE);
