@@ -13,6 +13,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.popularmovies.utils.ConnectionUtils;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements MoviesSource.Movi
     }
 
     private void makeQuery(MovieDbApiUtils.SortOrder popular) {
-        if (MovieDbApiUtils.isOnline()) {
+        if (ConnectionUtils.isConnected(this)) {
             mMoviesSource.makeQuery(popular);
             makeOnlyOneVisible(mProgressBar);
         } else {

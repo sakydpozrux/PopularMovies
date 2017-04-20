@@ -94,17 +94,4 @@ public class MovieDbApiUtils {
             urlConnection.disconnect();
         }
     }
-
-    public static Boolean isOnline() {
-        try {
-            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 " + PING_URL);
-            int returnVal = p1.waitFor();
-            boolean reachable = (returnVal==0);
-            return reachable;
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return false;
-    }
 }
