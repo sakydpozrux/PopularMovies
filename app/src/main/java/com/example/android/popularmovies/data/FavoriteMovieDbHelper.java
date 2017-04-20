@@ -23,12 +23,13 @@ public class FavoriteMovieDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_TABLE =
                 "CREATE TABLE " + FavoriteMovieEntry.TABLE_NAME + " (" +
                 FavoriteMovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                FavoriteMovieEntry.COLUMN_TMDB_ID + " INTEGER, " +
                 FavoriteMovieEntry.COLUMN_TITLE + " TEXT, " +
                 FavoriteMovieEntry.COLUMN_POSTER + " TEXT, " +
                 FavoriteMovieEntry.COLUMN_SYNOPSIS + " TEXT, " +
                 FavoriteMovieEntry.COLUMN_USER_RATING + " TEXT, " +
                 FavoriteMovieEntry.COLUMN_RELEASE_DATE + " TEXT" +
-                ")";
+                "UNIQUE (" + FavoriteMovieEntry.COLUMN_TMDB_ID + ") ON CONFLICT REPLACE)";
 
         db.execSQL(SQL_CREATE_TABLE);
     }

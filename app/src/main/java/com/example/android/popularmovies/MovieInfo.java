@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 
 public class MovieInfo implements Serializable {
-    public int id;
+    public int tmdbId;
     public String overview;
     public String posterPath;
     public String releaseDate;
