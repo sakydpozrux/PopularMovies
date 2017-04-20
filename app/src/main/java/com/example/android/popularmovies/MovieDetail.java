@@ -1,11 +1,18 @@
 package com.example.android.popularmovies;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.android.popularmovies.data.FavoriteMovieContract;
+import com.example.android.popularmovies.data.FavoriteMovieDbUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,6 +26,8 @@ public class MovieDetail extends AppCompatActivity {
     @BindView(R.id.tv_vote_average) TextView mTextVoteAverage;
     @BindView(R.id.tv_overview) TextView mTextOverview;
 
+    private MovieInfo mMovie;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,18 +38,23 @@ public class MovieDetail extends AppCompatActivity {
     }
 
     private void setComponents() {
-        MovieInfo movie = (MovieInfo) getIntent().getSerializableExtra(MOVIE_INFO_INTENT_KEY);
+        mMovie = (MovieInfo) getIntent().getSerializableExtra(MOVIE_INFO_INTENT_KEY);
 
-        mTextTitle.setText(movie.title);
-        mTextYear.setText(movie.releaseDate.substring(0, 4));
-        mTextVoteAverage.setText(movie.voteAverage + "/10");
-        mTextOverview.setText(movie.overview);
+        mTextTitle.setText(mMovie.title);
+        mTextYear.setText(mMovie.releaseDate.substring(0, 4));
+        mTextVoteAverage.setText(mMovie.voteAverage + "/10");
+        mTextOverview.setText(mMovie.overview);
 
-        MovieDbApiUtils.fillImageView(this, mThumbnail, movie.posterPath);
+        MovieDbApiUtils.fillImageView(this, mThumbnail, mMovie.posterPath);
     }
 
     public void btnMarkAsFavoriteClicked(View view) {
-        // TODO: Implement marking as favorite
-        Toast.makeText(this, "TODO: Implement marking as favorite", Toast.LENGTH_LONG).show();
+        final ContentResolver contentResolver = getContentResolver();
+        final Uri uri = FavoriteMovieContract.FavoriteMovieEntry.CONTENT_URI;
+
+        ContentValues contentValues = FavoriteMovieDbUtils.buildContentValue(mMovie);
+        final Uri insertedUri = contentResolver.insert(uri, contentValues);
+
+        Log.d(getClass().getName(), "Movie marked as favorite in uri: " + insertedUri.toString());
     }
 }
