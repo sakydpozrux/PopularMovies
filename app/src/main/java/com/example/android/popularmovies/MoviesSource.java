@@ -50,7 +50,7 @@ public class MoviesSource {
         @Override
         protected ArrayList<MovieInfo> doInBackground(URL... urls) {
             URL url = urls[0];
-            String queryResults = null;
+            String queryResults;
 
             ArrayList<MovieInfo> movies = new ArrayList<>();
 
