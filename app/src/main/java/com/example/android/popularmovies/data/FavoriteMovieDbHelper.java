@@ -12,7 +12,7 @@ import com.example.android.popularmovies.data.FavoriteMovieContract.FavoriteMovi
 
 public class FavoriteMovieDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "favorite_movies.db";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 1;
 
     public FavoriteMovieDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -26,7 +26,7 @@ public class FavoriteMovieDbHelper extends SQLiteOpenHelper {
                 FavoriteMovieEntry.COLUMN_TITLE + " TEXT, " +
                 FavoriteMovieEntry.COLUMN_POSTER + " TEXT, " +
                 FavoriteMovieEntry.COLUMN_SYNOPSIS + " TEXT, " +
-                FavoriteMovieEntry.COLUMN_USER_RATING + " REAL, " +
+                FavoriteMovieEntry.COLUMN_USER_RATING + " TEXT, " +
                 FavoriteMovieEntry.COLUMN_RELEASE_DATE + " TEXT" +
                 ")";
 
