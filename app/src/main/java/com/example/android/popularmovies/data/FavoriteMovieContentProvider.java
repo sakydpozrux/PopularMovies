@@ -1,12 +1,18 @@
 package com.example.android.popularmovies.data;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import static com.example.android.popularmovies.data.FavoriteMovieContract.FavoriteMovieEntry.CONTENT_URI;
+import static com.example.android.popularmovies.data.FavoriteMovieContract.FavoriteMovieEntry.TABLE_NAME;
 
 /**
  * Created by sakydpozrux on 19/04/2017.
@@ -60,16 +66,24 @@ public class FavoriteMovieContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        Uri changedUri;
+
         switch (sUriMatcher.match(uri)) {
             case CODE_FAVORITE_MOVIE:
-                // TODO
-                throw new UnsupportedOperationException("Method is not implemented");
-            case CODE_FAVORITE_MOVIE_WITH_ID:
-                // TODO
-                throw new UnsupportedOperationException("Method is not implemented");
+                final long id = db.insert(TABLE_NAME, null, values);
+
+                if (id == -1)
+                    throw new SQLException("Failed to insert values into uri: " + uri);
+
+                changedUri = ContentUris.withAppendedId(CONTENT_URI, id);
+                break;
             default:
                 throw new UnsupportedOperationException(invalidUriMessage(uri));
         }
+
+        getContext().getContentResolver().notifyChange(changedUri, null);
+        return changedUri;
     }
 
     @Override
