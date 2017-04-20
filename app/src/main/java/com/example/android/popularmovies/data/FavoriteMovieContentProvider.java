@@ -22,8 +22,12 @@ public class FavoriteMovieContentProvider extends ContentProvider {
 
     @Override
     public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
-        // TODO
-        throw new UnsupportedOperationException("TODO");
+        switch (sUriMatcher.match(uri)) {
+            case CODE_FAVORITE_MOVIE:
+                break;
+            default:
+                throw new UnsupportedOperationException(invalidUriMessage(uri));
+        }
     }
 
     @Override
@@ -35,34 +39,57 @@ public class FavoriteMovieContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        // TODO
-        throw new UnsupportedOperationException("TODO");
+        switch (sUriMatcher.match(uri)) {
+            case CODE_FAVORITE_MOVIE:
+                break;
+            case CODE_FAVORITE_MOVIE_WITH_ID:
+                break;
+            default:
+                throw new UnsupportedOperationException(invalidUriMessage(uri));
+        }
     }
 
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        // TODO
-        throw new UnsupportedOperationException("TODO");
+        throw new UnsupportedOperationException("Method is not implemented");
     }
 
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        // TODO
-        throw new UnsupportedOperationException("TODO");
+        switch (sUriMatcher.match(uri)) {
+            case CODE_FAVORITE_MOVIE:
+                break;
+            case CODE_FAVORITE_MOVIE_WITH_ID:
+                break;
+            default:
+                throw new UnsupportedOperationException(invalidUriMessage(uri));
+        }
     }
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        // TODO
-        throw new UnsupportedOperationException("TODO");
+        switch (sUriMatcher.match(uri)) {
+            case CODE_FAVORITE_MOVIE:
+                break;
+            case CODE_FAVORITE_MOVIE_WITH_ID:
+                break;
+            default:
+                throw new UnsupportedOperationException(invalidUriMessage(uri));
+        }
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        // TODO
-        throw new UnsupportedOperationException("TODO");
+        switch (sUriMatcher.match(uri)) {
+            case CODE_FAVORITE_MOVIE:
+                break;
+            case CODE_FAVORITE_MOVIE_WITH_ID:
+                break;
+            default:
+                throw new UnsupportedOperationException(invalidUriMessage(uri));
+        }
     }
 
     private static UriMatcher buildUriMatcher() {
@@ -75,5 +102,10 @@ public class FavoriteMovieContentProvider extends ContentProvider {
         uriMatcher.addURI(authority, path + "/#", CODE_FAVORITE_MOVIE_WITH_ID);
 
         return uriMatcher;
+    }
+
+    @NonNull
+    private String invalidUriMessage(@NonNull Uri uri) {
+        return "Invalid uri: " + uri;
     }
 }
