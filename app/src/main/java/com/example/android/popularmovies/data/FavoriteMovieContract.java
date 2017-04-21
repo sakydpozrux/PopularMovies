@@ -3,6 +3,8 @@ package com.example.android.popularmovies.data;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import com.example.android.popularmovies.MovieInfo;
+
 /**
  * Created by sakydpozrux on 19/04/2017.
  */
@@ -25,6 +27,9 @@ public class FavoriteMovieContract {
         public static final String COLUMN_USER_RATING = "user_rating";
         public static final String COLUMN_RELEASE_DATE = "release_date";
 
+        public static Uri buildUriWithMovieInfo(MovieInfo movieInfo) {
+            return buildMovieUriWithTmdbId(movieInfo.tmdbId);
+        }
         public static Uri buildMovieUriWithTmdbId(long tmdb_id) {
             return BASE_CONTENT_URI.buildUpon()
                     .appendPath(PATH_FAVORITE_MOVIES)

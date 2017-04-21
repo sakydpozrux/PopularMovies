@@ -2,6 +2,7 @@ package com.example.android.popularmovies;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -46,6 +47,7 @@ public class MovieDetail extends AppCompatActivity {
         mTextVoteAverage.setText(mMovie.voteAverage + "/10");
         mTextOverview.setText(mMovie.overview);
 
+        mButtonMarkFavorite.setChecked(isCurrentMovieFavorite());
         mButtonMarkFavorite.setOnCheckedChangeListener(buildOnCheckedChangeListener());
 
         MovieDbApiUtils.fillImageView(this, mThumbnail, mMovie.posterPath);
@@ -67,7 +69,7 @@ public class MovieDetail extends AppCompatActivity {
                             "Movie added to favorites in uri: " + insertedUri);
                 } else {
                     final Uri uri =
-                            FavoriteMovieContract.FavoriteMovieEntry.buildMovieUriWithTmdbId(mMovie.tmdbId);
+                            FavoriteMovieContract.FavoriteMovieEntry.buildUriWithMovieInfo(mMovie);
 
                     contentResolver.delete(uri, null, null);
 
@@ -75,5 +77,12 @@ public class MovieDetail extends AppCompatActivity {
                 }
             }
         };
+    }
+
+    private boolean isCurrentMovieFavorite() {
+        final ContentResolver contentResolver = getContentResolver();
+        final Uri uri = FavoriteMovieContract.FavoriteMovieEntry.buildUriWithMovieInfo(mMovie);
+        final Cursor cursor = contentResolver.query(uri, null, null, null, null);
+        return cursor != null && cursor.getCount() > 0;
     }
 }
