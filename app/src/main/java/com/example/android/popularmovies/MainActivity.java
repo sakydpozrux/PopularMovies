@@ -2,8 +2,8 @@ package com.example.android.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.popularmovies.MovieDbApiUtils.SortOrder;
 import com.example.android.popularmovies.utils.ConnectionUtils;
 
 import java.util.ArrayList;
@@ -27,6 +28,9 @@ public class MainActivity extends AppCompatActivity implements MoviesSource.Movi
 
     private MoviesSource mMoviesSource;
     private MoviesAdapter mMoviesAdapter;
+
+    private static final String CURRENT_SORT_PREFERENCE_KEY = "current_sort_preference_key";
+    private SortOrder mCurrentSort = SortOrder.POPULAR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,16 @@ public class MainActivity extends AppCompatActivity implements MoviesSource.Movi
             }
         });
 
-        makeQuery(MovieDbApiUtils.SortOrder.POPULAR);
+        if (savedInstanceState != null)
+            mCurrentSort = (SortOrder) savedInstanceState.get(CURRENT_SORT_PREFERENCE_KEY);
+
+        makeQuery(mCurrentSort);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(CURRENT_SORT_PREFERENCE_KEY, mCurrentSort);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -67,10 +80,12 @@ public class MainActivity extends AppCompatActivity implements MoviesSource.Movi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sort_popular:
-                makeQuery(MovieDbApiUtils.SortOrder.POPULAR);
+                mCurrentSort = SortOrder.POPULAR;
+                makeQuery(SortOrder.POPULAR);
                 return true;
             case R.id.action_sort_top_rated:
-                makeQuery(MovieDbApiUtils.SortOrder.TOP_RATED);
+                mCurrentSort = SortOrder.TOP_RATED;
+                makeQuery(SortOrder.TOP_RATED);
                 return true;
             case R.id.action_sort_favorite:
                 // TODO: Implement showing only favorites
@@ -82,9 +97,9 @@ public class MainActivity extends AppCompatActivity implements MoviesSource.Movi
         return super.onOptionsItemSelected(item);
     }
 
-    private void makeQuery(MovieDbApiUtils.SortOrder popular) {
+    private void makeQuery(SortOrder sortOrder) {
         if (ConnectionUtils.isConnected(this)) {
-            mMoviesSource.makeQuery(popular);
+            mMoviesSource.makeQuery(sortOrder);
             makeOnlyOneVisible(mProgressBar);
         } else {
             makeOnlyOneVisible(mTextError);
@@ -106,8 +121,7 @@ public class MainActivity extends AppCompatActivity implements MoviesSource.Movi
         final View[] views = {
                 mTextError,
                 mProgressBar,
-                mViewThumbnails
-        };
+                mViewThumbnails};
         for (View v: views) v.setVisibility(View.INVISIBLE);
 
         view.setVisibility(View.VISIBLE);
