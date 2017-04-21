@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import static com.example.android.popularmovies.data.FavoriteMovieContract.FavoriteMovieEntry.COLUMN_TMDB_ID;
 import static com.example.android.popularmovies.data.FavoriteMovieContract.FavoriteMovieEntry.CONTENT_URI;
 import static com.example.android.popularmovies.data.FavoriteMovieContract.FavoriteMovieEntry.TABLE_NAME;
 
@@ -88,16 +89,25 @@ public class FavoriteMovieContentProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        int deletedRows;
+
         switch (sUriMatcher.match(uri)) {
             case CODE_FAVORITE_MOVIE:
                 // TODO
                 throw new UnsupportedOperationException("Method is not implemented");
             case CODE_FAVORITE_MOVIE_WITH_ID:
-                // TODO
-                throw new UnsupportedOperationException("Method is not implemented");
+                String tmdbId = uri.getPathSegments().get(1);
+                String whereClause = COLUMN_TMDB_ID + "=?";
+                String[] whereArgs = new String[] {tmdbId};
+
+                deletedRows = db.delete(TABLE_NAME, whereClause, whereArgs);
+                break;
             default:
                 throw new UnsupportedOperationException(invalidUriMessage(uri));
         }
+
+        return deletedRows;
     }
 
     @Override
