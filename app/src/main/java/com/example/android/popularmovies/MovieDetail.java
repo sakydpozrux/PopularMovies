@@ -3,10 +3,11 @@ package com.example.android.popularmovies;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class MovieDetail extends AppCompatActivity {
     @BindView(R.id.tv_release_year) TextView mTextYear;
     @BindView(R.id.tv_vote_average) TextView mTextVoteAverage;
     @BindView(R.id.tv_overview) TextView mTextOverview;
+    @BindView(R.id.btn_mark_favorite) CheckBox mButtonMarkFavorite;
 
     private MovieInfo mMovie;
 
@@ -44,16 +46,34 @@ public class MovieDetail extends AppCompatActivity {
         mTextVoteAverage.setText(mMovie.voteAverage + "/10");
         mTextOverview.setText(mMovie.overview);
 
+        mButtonMarkFavorite.setOnCheckedChangeListener(buildOnCheckedChangeListener());
+
         MovieDbApiUtils.fillImageView(this, mThumbnail, mMovie.posterPath);
     }
 
-    public void btnMarkAsFavoriteClicked(View view) {
-        final ContentResolver contentResolver = getContentResolver();
-        final Uri uri = FavoriteMovieContract.FavoriteMovieEntry.CONTENT_URI;
+    private CompoundButton.OnCheckedChangeListener buildOnCheckedChangeListener() {
+        return new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                final ContentResolver contentResolver = getContentResolver();
 
-        ContentValues contentValues = FavoriteMovieDbUtils.buildContentValue(mMovie);
-        final Uri insertedUri = contentResolver.insert(uri, contentValues);
+                if (isChecked) {
+                    final Uri uri = FavoriteMovieContract.FavoriteMovieEntry.CONTENT_URI;
 
-        Log.d(getClass().getName(), "Movie marked as favorite in uri: " + insertedUri.toString());
+                    ContentValues contentValues = FavoriteMovieDbUtils.buildContentValue(mMovie);
+                    final Uri insertedUri = contentResolver.insert(uri, contentValues);
+
+                    Log.d(getClass().getName(),
+                            "Movie added to favorites in uri: " + insertedUri);
+                } else {
+                    final Uri uri =
+                            FavoriteMovieContract.FavoriteMovieEntry.buildMovieUriWithTmdbId(mMovie.tmdbId);
+
+                    contentResolver.delete(uri, null, null);
+
+                    Log.d(getClass().getName(), "Movie removed from favorites in uri: " + uri);
+                }
+            }
+        };
     }
 }
