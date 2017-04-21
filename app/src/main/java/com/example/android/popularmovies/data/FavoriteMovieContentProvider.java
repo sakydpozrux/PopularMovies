@@ -46,16 +46,38 @@ public class FavoriteMovieContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+        SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+        Cursor cursor;
+
         switch (sUriMatcher.match(uri)) {
             case CODE_FAVORITE_MOVIE:
-                // TODO
-                throw new UnsupportedOperationException("Method is not implemented");
+                cursor = db.query(
+                        TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
             case CODE_FAVORITE_MOVIE_WITH_ID:
-                // TODO
-                throw new UnsupportedOperationException("Method is not implemented");
+                final String selectionWithId = COLUMN_TMDB_ID + "=?";
+                final String[] selectionWithIdArgs = {uri.getPathSegments().get(1)};
+                cursor = db.query(
+                        TABLE_NAME,
+                        projection,
+                        selectionWithId,
+                        selectionWithIdArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
             default:
                 throw new UnsupportedOperationException(invalidUriMessage(uri));
         }
+
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        return cursor;
     }
 
     @Nullable
@@ -106,6 +128,9 @@ public class FavoriteMovieContentProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException(invalidUriMessage(uri));
         }
+
+        if (deletedRows > 0)
+            getContext().getContentResolver().notifyChange(uri, null);
 
         return deletedRows;
     }
