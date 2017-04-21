@@ -26,7 +26,9 @@ public class FavoriteMovieContract {
         public static final String COLUMN_RELEASE_DATE = "release_date";
 
         public static Uri buildMovieUriWithTmdbId(long tmdb_id) {
-            return BASE_CONTENT_URI.buildUpon().appendPath(Long.toString(tmdb_id)).build();
+            return BASE_CONTENT_URI.buildUpon()
+                    .appendPath(PATH_FAVORITE_MOVIES)
+                    .appendPath(Long.toString(tmdb_id)).build();
         }
     }
 }
