@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.popularmovies.MovieDbApiUtils.SortOrder;
 import com.example.android.popularmovies.utils.ConnectionUtils;
@@ -65,6 +64,12 @@ public class MainActivity extends AppCompatActivity implements MoviesSource.Movi
     }
 
     @Override
+    protected void onRestart() {
+        makeQuery(mCurrentSort);
+        super.onRestart();
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putSerializable(CURRENT_SORT_PREFERENCE_KEY, mCurrentSort);
         super.onSaveInstanceState(outState);
@@ -81,26 +86,23 @@ public class MainActivity extends AppCompatActivity implements MoviesSource.Movi
         switch (item.getItemId()) {
             case R.id.action_sort_popular:
                 mCurrentSort = SortOrder.POPULAR;
-                makeQuery(SortOrder.POPULAR);
-                return true;
+                break;
             case R.id.action_sort_top_rated:
                 mCurrentSort = SortOrder.TOP_RATED;
-                makeQuery(SortOrder.TOP_RATED);
-                return true;
+                break;
             case R.id.action_sort_favorite:
-                // TODO: Implement showing only favorites
-                Toast.makeText(this, "TODO: Implement showing only favorites", Toast.LENGTH_LONG)
-                        .show();
-                return true;
+                mCurrentSort = SortOrder.FAVORITES;
+                break;
         }
 
-        return super.onOptionsItemSelected(item);
+        makeQuery(mCurrentSort);
+        return true;
     }
 
     private void makeQuery(SortOrder sortOrder) {
-        if (ConnectionUtils.isConnected(this)) {
-            mMoviesSource.makeQuery(sortOrder);
+        if (sortOrder == SortOrder.FAVORITES || ConnectionUtils.isConnected(this)) {
             makeOnlyOneVisible(mProgressBar);
+            mMoviesSource.makeQuery(sortOrder);
         } else {
             makeOnlyOneVisible(mTextError);
         }

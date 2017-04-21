@@ -9,17 +9,29 @@ import com.example.android.popularmovies.MovieInfo;
  */
 
 public class FavoriteMovieDbUtils {
-    public static ContentValues buildContentValue(MovieInfo mMovie) {
+    public static ContentValues buildContentValue(MovieInfo movie) {
         ContentValues cv = new ContentValues();
 
-        String tmbdIdString = Long.toString(mMovie.tmdbId);
-        cv.put(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_TMDB_ID, tmbdIdString);
-        cv.put(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_TITLE, mMovie.title);
-        cv.put(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_POSTER, mMovie.posterPath);
-        cv.put(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_SYNOPSIS, mMovie.overview);
-        cv.put(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_USER_RATING, mMovie.voteAverage);
-        cv.put(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_RELEASE_DATE, mMovie.releaseDate);
+        cv.put(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_TMDB_ID, movie.tmdbId);
+        cv.put(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_TITLE, movie.title);
+        cv.put(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_POSTER, movie.posterPath);
+        cv.put(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_SYNOPSIS, movie.overview);
+        cv.put(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_USER_RATING, movie.voteAverage);
+        cv.put(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_RELEASE_DATE, movie.releaseDate);
 
         return cv;
+    }
+
+    public static MovieInfo buildMovie(ContentValues cv) {
+        MovieInfo movie = new MovieInfo();
+
+        movie.tmdbId = cv.getAsString(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_TMDB_ID);
+        movie.title = cv.getAsString(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_TITLE);
+        movie.posterPath = cv.getAsString(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_POSTER);
+        movie.overview = cv.getAsString(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_SYNOPSIS);
+        movie.voteAverage = cv.getAsString(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_USER_RATING);
+        movie.releaseDate = cv.getAsString(FavoriteMovieContract.FavoriteMovieEntry.COLUMN_RELEASE_DATE);
+
+        return movie;
     }
 }

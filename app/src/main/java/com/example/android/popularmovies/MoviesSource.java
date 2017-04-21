@@ -1,8 +1,14 @@
 package com.example.android.popularmovies;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+
+import com.example.android.popularmovies.data.FavoriteMovieContract;
+import com.example.android.popularmovies.data.FavoriteMovieDbUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,14 +42,44 @@ public class MoviesSource {
         return mMovies;
     }
 
-    public void makeQuery(MovieDbApiUtils.SortOrder sortOrder) {
-        String key = mContext.getString(R.string.key);
-        if (!MovieDbApiUtils.isApiKeyFormatValid(key)) {
-            throw new RuntimeException("Invalid TheMovieDB API key: " + key);
+    public void makeQueryFavorites() {
+        final Cursor cursor = mContext.getContentResolver().query(
+                FavoriteMovieContract.FavoriteMovieEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null);
+
+        ArrayList<MovieInfo> movies = new ArrayList<>();
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                ContentValues cv = new ContentValues();
+                DatabaseUtils.cursorRowToContentValues(cursor, cv);
+                MovieInfo movie = FavoriteMovieDbUtils.buildMovie(cv);
+                movies.add(movie);
+            } while (cursor.moveToNext());
+            cursor.close();
         }
 
-        URL url = MovieDbApiUtils.buildUrl(key, sortOrder);
-        new MovieDbQueryTask().execute(url);
+        mMovies = movies;
+        mDelegate.moviesUpdated(mMovies);
+    }
+
+    public void makeQuery(MovieDbApiUtils.SortOrder sortOrder) {
+        switch (sortOrder) {
+            case FAVORITES:
+                makeQueryFavorites();
+                break;
+            default:
+                String key = mContext.getString(R.string.key);
+                if (!MovieDbApiUtils.isApiKeyFormatValid(key)) {
+                    throw new RuntimeException("Invalid TheMovieDB API key: " + key);
+                }
+
+                URL url = MovieDbApiUtils.buildUrl(key, sortOrder);
+                new MovieDbQueryTask().execute(url);
+                break;
+        }
     }
 
     private class MovieDbQueryTask extends AsyncTask<URL, Void, ArrayList<MovieInfo>> {
@@ -85,7 +121,7 @@ public class MoviesSource {
         private MovieInfo getMovieInfo(JSONObject jsonMovieInfo) throws JSONException {
             MovieInfo movie = new MovieInfo();
 
-            movie.tmdbId = Integer.parseInt(jsonMovieInfo.getString("id"));
+            movie.tmdbId = jsonMovieInfo.getString("id");
             movie.overview = jsonMovieInfo.getString("overview");
             movie.posterPath = jsonMovieInfo.getString("poster_path");
             movie.releaseDate = jsonMovieInfo.getString("release_date");

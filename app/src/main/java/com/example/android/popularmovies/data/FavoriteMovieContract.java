@@ -30,10 +30,10 @@ public class FavoriteMovieContract {
         public static Uri buildUriWithMovieInfo(MovieInfo movieInfo) {
             return buildMovieUriWithTmdbId(movieInfo.tmdbId);
         }
-        public static Uri buildMovieUriWithTmdbId(long tmdb_id) {
+        public static Uri buildMovieUriWithTmdbId(String tmdb_id) {
             return BASE_CONTENT_URI.buildUpon()
                     .appendPath(PATH_FAVORITE_MOVIES)
-                    .appendPath(Long.toString(tmdb_id)).build();
+                    .appendPath(tmdb_id).build();
         }
     }
 }

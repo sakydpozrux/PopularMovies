@@ -35,7 +35,9 @@ public class MovieDbApiUtils {
     }
 
     public enum SortOrder {
-        POPULAR(API_PATH_POPULAR), TOP_RATED(API_PATH_TOP_RATED);
+        POPULAR(API_PATH_POPULAR),
+        TOP_RATED(API_PATH_TOP_RATED),
+        FAVORITES("favorites");
 
         private final String text;
 
