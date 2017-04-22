@@ -59,14 +59,12 @@ public class MainActivity extends AppCompatActivity implements MoviesSource.Movi
 
         if (savedInstanceState != null)
             mCurrentSort = (SortOrder) savedInstanceState.get(CURRENT_SORT_PREFERENCE_KEY);
-
-        makeQuery(mCurrentSort);
     }
 
     @Override
-    protected void onRestart() {
+    protected void onResume() {
         makeQuery(mCurrentSort);
-        super.onRestart();
+        super.onResume();
     }
 
     @Override
