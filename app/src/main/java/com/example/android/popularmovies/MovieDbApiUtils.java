@@ -20,10 +20,11 @@ import java.util.regex.Pattern;
 
 public class MovieDbApiUtils {
     private final static String API_URL = "http://api.themoviedb.org";
-    private final static String PING_URL = "themoviedb.org";
     private final static String[] API_PATH = { "3", "movie" };
     private final static String IMAGES_URL = "http://image.tmdb.org";
     private final static String[] IMAGES_PATH = { "t", "p", "w185" };
+    private final static String VIDEOS_PATH = "videos";
+    private final static String REVIEWS_PATH = "reviews";
     private final static String API_PATH_POPULAR = "popular";
     private final static String API_PATH_TOP_RATED = "top_rated";
     private final static String PARAM_KEY = "api_key";
@@ -60,6 +61,42 @@ public class MovieDbApiUtils {
 
         URL url = null;
         try {
+            url = new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
+    public static URL buildUrlVideos(String apiKey, String id) {
+        Uri uri = Uri.parse(API_URL).buildUpon()
+                .appendPath(API_PATH[0])
+                .appendPath(API_PATH[1])
+                .appendPath(id)
+                .appendPath(VIDEOS_PATH)
+                .appendQueryParameter(PARAM_KEY, apiKey).build();
+
+        URL url = null;
+        try{
+            url = new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
+    public static URL buildUrlReviews(String apiKey, String id) {
+        Uri uri = Uri.parse(API_URL).buildUpon()
+                .appendPath(API_PATH[0])
+                .appendPath(API_PATH[1])
+                .appendPath(id)
+                .appendPath(REVIEWS_PATH)
+                .appendQueryParameter(PARAM_KEY, apiKey).build();
+
+        URL url = null;
+        try{
             url = new URL(uri.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
