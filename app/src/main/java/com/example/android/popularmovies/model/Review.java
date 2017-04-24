@@ -5,4 +5,7 @@ package com.example.android.popularmovies.model;
  */
 
 public class Review {
+    public String tmdbId;
+    public String author;
+    public String content;
 }

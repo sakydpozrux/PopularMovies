@@ -5,4 +5,7 @@ package com.example.android.popularmovies.model;
  */
 
 public class Trailer {
+    public String tmdbId;
+    public String key;
+    public String name;
 }
