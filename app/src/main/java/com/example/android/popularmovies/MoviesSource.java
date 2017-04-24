@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.example.android.popularmovies.data.FavoriteMovieContract;
 import com.example.android.popularmovies.data.FavoriteMovieDbUtils;
+import com.example.android.popularmovies.model.MovieInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -3,7 +3,7 @@ package com.example.android.popularmovies.data;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.example.android.popularmovies.MovieInfo;
+import com.example.android.popularmovies.model.MovieInfo;
 
 /**
  * Created by sakydpozrux on 19/04/2017.

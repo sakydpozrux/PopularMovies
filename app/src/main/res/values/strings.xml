@@ -6,4 +6,7 @@
     <string name="favorites">Favorites</string>
 
     <string name="btn_mark_as_favorite">Mark as favorite</string>
+
+    <string name="trailers_title">Videos</string>
+    <string name="reviews_title">Reviews</string>
 </resources>

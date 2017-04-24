@@ -2,7 +2,7 @@ package com.example.android.popularmovies.data;
 
 import android.content.ContentValues;
 
-import com.example.android.popularmovies.MovieInfo;
+import com.example.android.popularmovies.model.MovieInfo;
 
 /**
  * Created by sakydpozrux on 20/04/2017.

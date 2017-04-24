@@ -87,33 +87,49 @@
             app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail"
             tools:text="Here will be very long description of the movie. You can see the title above. Basically this app is for me to learn how to develop Android apps. So cool! Here will be very long description of the movie. You can see the title above. Basically this app is for me to learn how to develop Android apps. So cool!"/>
 
-        <LinearLayout
-            android:id="@+id/layout_trailers"
-            android:layout_width="384dp"
+        <TextView
+            android:id="@+id/tv_trailers_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_overview">
-        </LinearLayout>
+            android:text="@string/trailers_title"
+            android:padding="12dp"
+            android:textSize="22sp"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_overview"
+            app:layout_constraintTop_toBottomOf="@+id/tv_overview"/>
 
-        <LinearLayout
-            android:id="@+id/layout_reviews"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_trailers"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:padding="12dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_trailers">
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/tv_trailers_title"/>
+
+        <TextView
+            android:id="@+id/tv_reviews_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reviews_title"
+            android:padding="12dp"
+            android:textSize="22sp"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_overview"
+            app:layout_constraintTop_toBottomOf="@+id/rv_trailers"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_reviews"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_reviews_title"/>
 
         <CheckBox
             android:id="@+id/btn_mark_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:button="@android:drawable/btn_star"
-            android:layout_marginLeft="0dp"
-            android:layout_marginStart="0dp"
             android:layout_marginTop="16dp"
             android:background="@android:color/transparent"
             app:layout_constraintLeft_toLeftOf="@+id/tv_vote_average"

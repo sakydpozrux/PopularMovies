@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.MovieDbApiUtils.SortOrder;
+import com.example.android.popularmovies.model.MovieInfo;
 import com.example.android.popularmovies.utils.ConnectionUtils;
 
 import java.util.ArrayList;
