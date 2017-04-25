@@ -2,13 +2,18 @@ package com.example.android.popularmovies;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -124,6 +129,28 @@ public class MovieDetail extends AppCompatActivity
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (mFirstTrailer != null) {
+            getMenuInflater().inflate(R.menu.movie_detail_menu, menu);
+
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, mFirstTrailer.buildUri(this).toString());
+
+            MenuItem item = menu.findItem(R.id.menu_item_share);
+            ShareActionProvider actionProvider =
+                    (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+
+            actionProvider.setShareIntent(intent);
+            return true;
+        }
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private Trailer mFirstTrailer;
+
+    @Override
     public void trailersAndReviewsFetched() {
         mProgressBarFetch.setVisibility(View.INVISIBLE);
 
@@ -131,6 +158,9 @@ public class MovieDetail extends AppCompatActivity
         ArrayList<Review> reviews = mTrailersAndReviewsSource.getReviews();
 
         if (trailers.size() > 0) {
+            mFirstTrailer = trailers.get(0);
+            invalidateOptionsMenu();
+
             setRecyclerView(mRvTrailers, new TrailersAdapter(this, trailers));
             mTextTrailersTitle.setVisibility(View.VISIBLE);
             mRvTrailers.setVisibility(View.VISIBLE);

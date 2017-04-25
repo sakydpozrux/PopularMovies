@@ -34,14 +34,7 @@ class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.TrailerAdapte
         viewHolder.btnTrailerOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String YOUTUBE_URI = mContext.getString(R.string.youtube_uri);
-                final String YOUTUBE_PATH_WATCH = mContext.getString(R.string.youtube_path_watch);
-                final String YOUTUBE_PARAM_VIDEO = mContext.getString(R.string.youtube_param_video);
-
-                Uri uri = Uri.parse(YOUTUBE_URI).buildUpon()
-                        .appendPath(YOUTUBE_PATH_WATCH)
-                        .appendQueryParameter(YOUTUBE_PARAM_VIDEO,viewHolder.key).build();
-
+                final Uri uri = viewHolder.uri;
                 mContext.startActivity(new Intent(Intent.ACTION_VIEW, uri));
             }
         });
@@ -52,7 +45,7 @@ class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.TrailerAdapte
     public void onBindViewHolder(TrailerAdapterViewHolder holder, int position) {
         final Trailer trailer = mTrailers.get(position);
         holder.textName.setText(trailer.name);
-        holder.key = trailer.key;
+        holder.uri = trailer.buildUri(mContext);
     }
 
     @Override
@@ -61,10 +54,9 @@ class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.TrailerAdapte
     }
 
     class TrailerAdapterViewHolder extends RecyclerView.ViewHolder {
+        Uri uri;
         TextView textName;
         ImageButton btnTrailerOpen;
-
-        String key;
 
         public TrailerAdapterViewHolder(View itemView) {
             super(itemView);
