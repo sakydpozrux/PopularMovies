@@ -1,6 +1,8 @@
 package com.example.android.popularmovies;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,13 +30,29 @@ class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.TrailerAdapte
     @Override
     public TrailerAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.layout_trailer, parent, false);
-        return new TrailerAdapterViewHolder(view);
+        final TrailerAdapterViewHolder viewHolder = new TrailerAdapterViewHolder(view);
+        viewHolder.btnTrailerOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String YOUTUBE_URI = mContext.getString(R.string.youtube_uri);
+                final String YOUTUBE_PATH_WATCH = mContext.getString(R.string.youtube_path_watch);
+                final String YOUTUBE_PARAM_VIDEO = mContext.getString(R.string.youtube_param_video);
+
+                Uri uri = Uri.parse(YOUTUBE_URI).buildUpon()
+                        .appendPath(YOUTUBE_PATH_WATCH)
+                        .appendQueryParameter(YOUTUBE_PARAM_VIDEO,viewHolder.key).build();
+
+                mContext.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+            }
+        });
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(TrailerAdapterViewHolder holder, int position) {
         final Trailer trailer = mTrailers.get(position);
         holder.textName.setText(trailer.name);
+        holder.key = trailer.key;
     }
 
     @Override
@@ -45,6 +63,8 @@ class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.TrailerAdapte
     class TrailerAdapterViewHolder extends RecyclerView.ViewHolder {
         TextView textName;
         ImageButton btnTrailerOpen;
+
+        String key;
 
         public TrailerAdapterViewHolder(View itemView) {
             super(itemView);

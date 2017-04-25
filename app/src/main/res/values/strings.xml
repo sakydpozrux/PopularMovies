@@ -9,4 +9,8 @@
 
     <string name="trailers_title">Videos</string>
     <string name="reviews_title">Reviews</string>
+
+    <string name="youtube_uri">http://www.youtube.com</string>
+    <string name="youtube_path_watch">watch</string>
+    <string name="youtube_param_video">v</string>
 </resources>

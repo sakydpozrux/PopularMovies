@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:background="@android:color/transparent"
+        android:onClick="clicked"
         android:src="@android:drawable/ic_media_play"
         android:tint="@color/colorPrimary"/>
 
