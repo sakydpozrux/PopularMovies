@@ -23,6 +23,8 @@ import java.util.ArrayList;
  */
 
 public class MoviesSource {
+    private static final String RESULTS_JSON_KEY = "results";
+
     public interface MoviesSourceDelegate {
         void moviesUpdated(ArrayList<MovieInfo> movies);
         void errorDuringUpdate(String message);
@@ -31,7 +33,7 @@ public class MoviesSource {
     final private Context mContext;
     final private MoviesSourceDelegate mDelegate;
 
-    MoviesSource(Context context, MoviesSourceDelegate delegate) {
+    MoviesSource(@NonNull Context context, @NonNull MoviesSourceDelegate delegate) {
         mContext = context;
         mDelegate = delegate;
     }
@@ -72,7 +74,7 @@ public class MoviesSource {
                 makeQueryFavorites();
                 break;
             default:
-                String key = mContext.getString(R.string.key);
+                final String key = mContext.getString(R.string.key);
                 if (!MovieDbApiUtils.isApiKeyFormatValid(key)) {
                     throw new RuntimeException("Invalid TheMovieDB API key: " + key);
                 }
@@ -101,12 +103,11 @@ public class MoviesSource {
 
             try {
                 JSONObject completeJsonAnswer = new JSONObject(queryResults);
-                JSONArray jsonResults = completeJsonAnswer.getJSONArray("results");
+                JSONArray jsonResults = completeJsonAnswer.getJSONArray(RESULTS_JSON_KEY);
 
-                for (int i = 0; i < jsonResults.length(); ++i) {
-                    JSONObject jsonMovieInfo = jsonResults.getJSONObject(i);
-
-                    MovieInfo movie = getMovieInfo(jsonMovieInfo);
+                for (int movieIndex = 0; movieIndex < jsonResults.length(); ++movieIndex) {
+                    JSONObject jsonMovieInfo = jsonResults.getJSONObject(movieIndex);
+                    final MovieInfo movie = getMovieInfo(jsonMovieInfo);
                     movies.add(movie);
                 }
             } catch (Exception e) {

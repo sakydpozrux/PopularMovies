@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.android.popularmovies.model.MovieInfo;
 import com.example.android.popularmovies.model.Trailer;
 
 import java.util.ArrayList;
@@ -20,9 +19,9 @@ class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.TrailerAdapte
     private final Context mContext;
     private final ArrayList<Trailer> mTrailers;
 
-    public TrailersAdapter(Context context, MovieInfo movie) {
+    public TrailersAdapter(Context context, ArrayList<Trailer> trailers) {
         mContext = context;
-        mTrailers = movie.trailers;
+        mTrailers = trailers;
     }
 
     @Override

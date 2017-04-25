@@ -87,6 +87,18 @@
             app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail"
             tools:text="Here will be very long description of the movie. You can see the title above. Basically this app is for me to learn how to develop Android apps. So cool! Here will be very long description of the movie. You can see the title above. Basically this app is for me to learn how to develop Android apps. So cool!"/>
 
+        <ProgressBar
+            android:id="@+id/pb_fetch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="16dp"
+            android:visibility="visible"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_trailers_title"/>
+
         <TextView
             android:id="@+id/tv_trailers_title"
             android:layout_width="wrap_content"

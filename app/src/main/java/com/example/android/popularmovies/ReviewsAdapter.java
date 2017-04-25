@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.android.popularmovies.model.MovieInfo;
 import com.example.android.popularmovies.model.Review;
 
 import java.util.ArrayList;
@@ -20,9 +19,9 @@ class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsAdapterV
     private final Context mContext;
     private final ArrayList<Review> mReviews;
 
-    public ReviewsAdapter(Context context, MovieInfo movie) {
+    public ReviewsAdapter(Context context, ArrayList<Review> reviews) {
         mContext = context;
-        mReviews = movie.reviews;
+        mReviews = reviews;
     }
 
     @Override

@@ -13,16 +13,23 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.data.FavoriteMovieContract;
 import com.example.android.popularmovies.data.FavoriteMovieDbUtils;
 import com.example.android.popularmovies.model.MovieInfo;
+import com.example.android.popularmovies.model.Review;
+import com.example.android.popularmovies.model.Trailer;
+import com.example.android.popularmovies.utils.ConnectionUtils;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MovieDetail extends AppCompatActivity {
+public class MovieDetail extends AppCompatActivity
+        implements TrailersReviewsSource.TrailersReviewsSourceDelegate {
     public static final String MOVIE_INFO_INTENT_KEY = "com.example.android.popularmovies.movieinfo";
 
     @BindView(R.id.tv_title) TextView mTextTitle;
@@ -32,12 +39,14 @@ public class MovieDetail extends AppCompatActivity {
     @BindView(R.id.tv_overview) TextView mTextOverview;
     @BindView(R.id.btn_mark_favorite) CheckBox mButtonMarkFavorite;
 
+    @BindView(R.id.pb_fetch) ProgressBar mProgressBarFetch;
     @BindView(R.id.tv_trailers_title) TextView mTextTrailersTitle;
     @BindView(R.id.rv_trailers) RecyclerView mRvTrailers;
     @BindView(R.id.tv_reviews_title) TextView mTextReviewsTitle;
     @BindView(R.id.rv_reviews) RecyclerView mRvReviews;
 
     private MovieInfo mMovie;
+    private TrailersReviewsSource mTrailersAndReviewsSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +59,7 @@ public class MovieDetail extends AppCompatActivity {
 
     private void setComponents() {
         mMovie = (MovieInfo) getIntent().getSerializableExtra(MOVIE_INFO_INTENT_KEY);
+        mTrailersAndReviewsSource = new TrailersReviewsSource(this, this);
 
         mTextTitle.setText(mMovie.title);
         mTextYear.setText(mMovie.releaseDate.substring(0, 4));
@@ -59,13 +69,15 @@ public class MovieDetail extends AppCompatActivity {
         mButtonMarkFavorite.setChecked(isCurrentMovieFavorite());
         mButtonMarkFavorite.setOnCheckedChangeListener(buildOnCheckedChangeListener());
 
-        if (mMovie.trailers.size() == 0) mTextTrailersTitle.setVisibility(View.GONE);
-        setRecyclerView(mRvTrailers, new TrailersAdapter(this, mMovie));
-
-        if (mMovie.reviews.size() == 0) mTextReviewsTitle.setVisibility(View.GONE);
-        setRecyclerView(mRvReviews, new ReviewsAdapter(this, mMovie));
+        mTextTrailersTitle.setVisibility(View.GONE);
+        mTextReviewsTitle.setVisibility(View.GONE);
 
         MovieDbApiUtils.fillImageView(this, mThumbnail, mMovie.posterPath);
+
+        if (ConnectionUtils.isConnected(this)) {
+            mTrailersAndReviewsSource.makeQueryTrailersAndReviews(mMovie);
+            mProgressBarFetch.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setRecyclerView(RecyclerView recyclerView, RecyclerView.Adapter adapter) {
@@ -109,5 +121,30 @@ public class MovieDetail extends AppCompatActivity {
         final Uri uri = FavoriteMovieContract.FavoriteMovieEntry.buildUriWithMovieInfo(mMovie);
         final Cursor cursor = contentResolver.query(uri, null, null, null, null);
         return cursor != null && cursor.getCount() > 0;
+    }
+
+    @Override
+    public void trailersAndReviewsFetched() {
+        mProgressBarFetch.setVisibility(View.INVISIBLE);
+
+        ArrayList<Trailer> trailers = mTrailersAndReviewsSource.getTrailers();
+        ArrayList<Review> reviews = mTrailersAndReviewsSource.getReviews();
+
+        if (trailers.size() > 0) {
+            setRecyclerView(mRvTrailers, new TrailersAdapter(this, trailers));
+            mTextTrailersTitle.setVisibility(View.VISIBLE);
+            mRvTrailers.setVisibility(View.VISIBLE);
+        }
+
+        if (reviews.size() > 0) {
+            setRecyclerView(mRvReviews, new ReviewsAdapter(this, reviews));
+            mTextReviewsTitle.setVisibility(View.VISIBLE);
+            mRvReviews.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void errorDuringTrailersAndReviewsFetch(String message) {
+        mProgressBarFetch.setVisibility(View.INVISIBLE);
     }
 }
