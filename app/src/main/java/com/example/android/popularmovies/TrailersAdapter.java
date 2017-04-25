@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.model.Trailer;
@@ -33,8 +34,7 @@ class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.TrailerAdapte
     @Override
     public void onBindViewHolder(TrailerAdapterViewHolder holder, int position) {
         final Trailer trailer = mTrailers.get(position);
-        // TODO: Implement it
-        holder.textView.setText("TODO: Implement it");
+        holder.textName.setText(trailer.name);
     }
 
     @Override
@@ -43,12 +43,14 @@ class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.TrailerAdapte
     }
 
     class TrailerAdapterViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
+        TextView textName;
+        ImageButton btnTrailerOpen;
 
         public TrailerAdapterViewHolder(View itemView) {
             super(itemView);
 
-            textView = (TextView) itemView.findViewById(R.id.textView);
+            textName = (TextView) itemView.findViewById(R.id.tv_trailer_name);
+            btnTrailerOpen = (ImageButton) itemView.findViewById(R.id.btn_trailer_open);
         }
     }
 }
