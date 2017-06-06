@@ -3,25 +3,24 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 
-**Popular Movies** is one of the projects in Udacity's [*Associate Android Developer Fast Track*](https://www.udacity.com/course/associate-android-developer-fast-track--nd818) course supported by Google.
+**Popular Movies** is one of the projects I made from scratch for Udacity's [*Associate Android Developer Fast Track*](https://www.udacity.com/course/associate-android-developer-fast-track--nd818) course supported by Google.
 The app uses core Android UI components and fetches movie details using themoviedb.org free API.
 
+![Animation](readme_screenshots/animation.gif "Animation that shows example usage")
 
 # Features
 
- - See a grid of the most popular or the highest rated movies,
- - Read reviews,
- - Store and view selected movies' details offline,
- - Watch and share trailers,
- - Seamlessly update movies in background thread.
+* See a grid of the most popular or the highest rated movies,
+* Read reviews,
+* Store and view selected movies' details offline,
+* Watch and share trailers,
+* Seamlessly update movies in background thread.
 
 
 # Screenshots
 
 ![Thumbnails](readme_screenshots/thumbnails.png "Screenshot that shows grid of thumbnails")
 ![Movie details](readme_screenshots/movie_details.png "Screenshot that shows selected movie details")
-
-![Animation](readme_screenshots/animation.gif "Animation that shows example usage")
 
 
 # How to run
@@ -38,7 +37,12 @@ Do steps as described below to run the app.
   7. Run the app! 👍
  
 
-# Libraries
+# Project requirements
+
+This project was reviewed by Udacity code reviewer and was graded positively as it met the requested specifications. To see it in detail refer to [this wiki page](../../wiki/Project-requirements)
+
+
+# Libraries used
 
 * [ButterKnife](https://github.com/JakeWharton/butterknife) - Fields and methods binding for Android views
 * [Firebase JobDispatcher](https://github.com/firebase/firebase-jobdispatcher-android) - Background jobs scheduler
