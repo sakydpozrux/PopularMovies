@@ -22,7 +22,6 @@ public class BitmapUtils {
     }
 
     public static Bitmap deserialize(String bitmapBase64) {
-        // TODO: Replace 1st arg with base64Str.substring(bitmapBase64.indexOf(",")  + 1) ???
         byte[] byteArray = Base64.decode(bitmapBase64, BASE64_FLAGS);
         Bitmap poster = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         return poster;

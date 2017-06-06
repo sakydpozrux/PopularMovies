@@ -30,7 +30,6 @@ public class FavoriteMovieContentProvider extends ContentProvider {
     public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
         switch (sUriMatcher.match(uri)) {
             case CODE_FAVORITE_MOVIE:
-                // TODO
                 throw new UnsupportedOperationException("Method is not implemented");
             default:
                 throw new UnsupportedOperationException(invalidUriMessage(uri));
@@ -116,7 +115,6 @@ public class FavoriteMovieContentProvider extends ContentProvider {
 
         switch (sUriMatcher.match(uri)) {
             case CODE_FAVORITE_MOVIE:
-                // TODO
                 throw new UnsupportedOperationException("Method is not implemented");
             case CODE_FAVORITE_MOVIE_WITH_ID:
                 String tmdbId = uri.getPathSegments().get(1);
@@ -139,10 +137,8 @@ public class FavoriteMovieContentProvider extends ContentProvider {
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
         switch (sUriMatcher.match(uri)) {
             case CODE_FAVORITE_MOVIE:
-                // TODO
                 throw new UnsupportedOperationException("Method is not implemented");
             case CODE_FAVORITE_MOVIE_WITH_ID:
-                // TODO
                 throw new UnsupportedOperationException("Method is not implemented");
             default:
                 throw new UnsupportedOperationException(invalidUriMessage(uri));
